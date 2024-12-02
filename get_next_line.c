@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ymouchta <ymouchta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/24 15:06:41 by marvin            #+#    #+#             */
-/*   Updated: 2024/11/24 15:06:41 by marvin           ###   ########.fr       */
+/*   Created: 2024/12/02 16:27:19 by ymouchta          #+#    #+#             */
+/*   Updated: 2024/12/02 16:27:19 by ymouchta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*extra_line(char **line)
 	char	*temp;
 
 	i = 0;
-	if	(!line && !*line)
+	if (!line && !*line)
 		return (NULL);
 	while ((*line)[i] && (*line)[i] != '\n')
 		i++;
@@ -55,11 +55,11 @@ static char	*extra_line(char **line)
 		i++;
 	dst = malloc(i + 1);
 	if (!dst)
-		return (ft_free(line));
+		return (NULL);
 	ft_cpy(&dst, line);
 	temp = ft_strdup((*line) + i);
 	if (!temp)
-		return (ft_free(line));
+		return (ft_free(line), ft_free(&dst));
 	ft_free(line);
 	*line = temp;
 	return (dst);
@@ -94,7 +94,7 @@ static char	*ft_get_line(int fd, char **line)
 
 char	*get_next_line(int fd)
 {
-	static char	*line = NULL;
+	static char	*line;
 	char		*extra;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
