@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymouchta <ymouchta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/02 16:27:19 by ymouchta          #+#    #+#             */
-/*   Updated: 2024/12/03 10:54:21 by ymouchta         ###   ########.fr       */
+/*   Created: 2024/12/03 10:54:47 by ymouchta          #+#    #+#             */
+/*   Updated: 2024/12/03 11:02:07 by ymouchta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*ft_free(char **maloc)
 {
@@ -94,16 +94,16 @@ static char	*ft_get_line(int fd, char **line)
 
 char	*get_next_line(int fd)
 {
-	static char	*line;
+	static char	*line[10240];
 	char		*extra;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = ft_get_line(fd, &line);
-	if (!line)
-		return (ft_free(&line));
-	extra = extra_line(&line);
+	line[fd] = ft_get_line(fd, &line[fd]);
+	if (!line[fd])
+		return (ft_free(&line[fd]));
+	extra = extra_line(&line[fd]);
 	if (!extra || ft_strlen(extra) == 0)
-		return (ft_free(&extra), ft_free(&line));
+		return (ft_free(&extra), ft_free(&line[fd]));
 	return (extra);
 }
